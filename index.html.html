@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap">
+<title>اللون بواسطة اختزال أشعة الضوء</title>
+<style>
+:root{--bg:#0b0d1a;--fg:#f4f5fb;--mut:#a3a9c6;--ac:#ff5a5f;--ac2:#ffc857;--bd:rgba(255,255,255,.12);--glass:rgba(255,255,255,.06);--o1:#ff3b5c;--o2:#3b82ff;--o3:#2ecc71;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3f4fb;--fg:#14172b;--mut:#596082;--bd:rgba(20,23,43,.12);--glass:rgba(255,255,255,.78)}}
+:root[data-theme="light"]{--bg:#f3f4fb;--fg:#14172b;--mut:#596082;--bd:rgba(20,23,43,.12);--glass:rgba(255,255,255,.78)}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;color:var(--fg);font-family:"Cairo","Tajawal","Segoe UI",Tahoma,Arial,sans-serif;line-height:1.75;display:flex;flex-direction:column;background:radial-gradient(900px 500px at 90% -10%,rgba(255,90,95,.22),transparent 60%),radial-gradient(800px 500px at 0% 20%,rgba(59,130,255,.20),transparent 60%),radial-gradient(700px 500px at 60% 110%,rgba(46,204,113,.16),transparent 60%),var(--bg);background-attachment:fixed}
+#prog{height:6px;background:var(--bd)}#prog i{display:block;height:100%;width:0;border-radius:0 6px 6px 0;background:linear-gradient(90deg,#ff3b5c,#ffc857,#2ecc71,#3b82ff,#c86bff);transition:width .5s cubic-bezier(.4,0,.2,1)}
+main{flex:1;overflow:auto;padding:22px 16px 30px}
+.slide{display:none;max-width:1000px;margin:0 auto;counter-increment:s}.slide.on{display:block;animation:in .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+h1{font-size:clamp(2rem,6vw,3.6rem);margin:.2em 0;line-height:1.25;font-weight:900}
+h2{font-size:clamp(1.4rem,3.6vw,2rem);margin:0 0 .7em;font-weight:800;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h2::before{content:counter(s);display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-size:1.1rem;box-shadow:0 6px 18px rgba(255,90,95,.35)}
+h2 span{background:linear-gradient(90deg,var(--ac2),var(--ac));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cover{text-align:center;padding:7vh 0 4vh;position:relative;overflow:hidden}
+.cover h1{background:linear-gradient(90deg,#ff5a5f,#ffc857,#4cd964,#4aa3ff,#c86bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.orbs{position:relative;height:150px;width:210px;margin:0 auto 10px}
+.orbs i{position:absolute;width:104px;height:104px;border-radius:50%;mix-blend-mode:screen;filter:blur(.5px);animation:fl 6s ease-in-out infinite}
+.orbs i:nth-child(1){background:#ff2d3d;left:0;top:0}.orbs i:nth-child(2){background:#22d45a;right:0;top:0;animation-delay:-2s}.orbs i:nth-child(3){background:#2d6bff;left:53px;top:46px;animation-delay:-4s}
+@keyframes fl{50%{transform:translateY(-10px) scale(1.06)}}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .orbs{background:#0b0d1a;border-radius:24px;padding:0}}
+.tag{display:inline-block;border:1px solid var(--bd);background:var(--glass);backdrop-filter:blur(10px);border-radius:999px;padding:3px 16px;color:var(--mut);margin:5px;font-size:.95rem}
+.card{background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--bd);border-right:4px solid var(--ac);border-radius:16px;padding:16px 18px;margin:12px 0;box-shadow:0 10px 30px rgba(0,0,0,.18);transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.26)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.grid>.card{margin:0}
+.grid>.card:nth-child(2n){border-right-color:var(--ac2)}.grid>.card:nth-child(3n){border-right-color:#4aa3ff}
+.lbl{color:var(--mut);font-size:.95rem;margin-bottom:8px;font-weight:700}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button{font:inherit;color:var(--fg);background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:7px 16px;cursor:pointer;transition:transform .15s,background .2s}
+button:hover{transform:translateY(-2px)}button:active{transform:scale(.96)}
+button.sw{width:40px;height:40px;border-radius:50%;padding:0;border:3px solid rgba(255,255,255,.35);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+button.sel{outline:3px solid var(--ac2);outline-offset:3px;box-shadow:0 0 18px rgba(255,200,87,.5)}
+.stage{background:radial-gradient(circle at 50% 0,#1b1f3a,#07080f 70%);color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:18px;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:center;box-shadow:inset 0 0 40px rgba(0,0,0,.5),0 12px 34px rgba(0,0,0,.3);margin:12px 0}
+.box{width:110px;height:110px;border-radius:20px;border:3px solid rgba(255,255,255,.85);transition:background .4s;margin:auto;box-shadow:0 0 30px rgba(255,255,255,.12)}
+.res{font-size:1.2rem;font-weight:800;margin-top:8px}
+.good{color:#4cd964}.bad{color:var(--ac)}
+svg{width:100%;max-width:660px;height:auto}
+.dice{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.die{width:90px;height:90px;border-radius:18px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:11px;gap:3px;transition:background .4s;box-shadow:inset -4px -6px 12px rgba(0,0,0,.35),inset 3px 4px 8px rgba(255,255,255,.25),0 10px 20px rgba(0,0,0,.5)}
+.die u{border-radius:50%;transition:background .4s;display:block}
+.die u:nth-child(1),.die u:nth-child(3),.die u:nth-child(5),.die u:nth-child(7),.die u:nth-child(9){background:var(--p)}
+.die u:nth-child(even){background:transparent}
+.opt{display:block;width:100%;text-align:right;margin:6px 0;padding:10px 16px}
+.opt.ok{background:#1f9a52;color:#fff;border-color:transparent}.opt.no{background:#b5343d;color:#fff;border-color:transparent}
+nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 auto 12px;width:min(520px,calc(100% - 24px));padding:8px 10px;border-radius:999px;border:1px solid var(--bd);background:var(--glass);backdrop-filter:blur(16px);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+nav button{background:linear-gradient(135deg,var(--ac),#ff8a5f);color:#fff;border:0;font-weight:800;border-radius:999px;padding:8px 20px}
+nav button:disabled{opacity:.3;transform:none}
+</style></head><body>
+<div id="prog"><i></i></div>
+<main>
+
+<section class="slide on cover">
+<div class="orbs"><i></i><i></i><i></i></div>
+<div class="tag">الفصل 4 • أساسيات الضوء</div>
+<h1>اللون بواسطة اختزال أشعة الضوء</h1>
+<p style="color:var(--mut);font-size:1.15rem">لماذا يبدو الموز أصفر؟ وماذا يحدث له لو أضأناه بضوء أزرق؟</p>
+<div class="tag">الدرس 4-2 • الطبيعة الموجية للضوء • ص 124–126</div>
+<p style="margin:16px 0 4px;font-size:1.3rem;font-weight:800;color:#2ecc71">المجموعة الخضراء • شعبة 303</p>
+<p class="tag">استخدم الأسهم ← → أو الأزرار للتنقل</p>
+</section>
+
+<section class="slide">
+<h2>الأهداف <span>والمفردات</span></h2>
+<div class="grid">
+<div class="card"><b>سنتعلم أن:</b><br>• الجسم يعكس بعض الأطوال الموجية ويمتص الباقي.<br>• لون الجسم يعتمد على لون الضوء الساقط وعلى ما يمتصه.<br>• كيف تنتج الصبغات ألوانها بالاختزال.</div>
+<div class="card"><b>المفردات:</b><br>• <b>اللون الأساسي للضوء:</b> أحمر، أخضر، أزرق.<br>• <b>اللون الثانوي للضوء:</b> أصفر، أزرق فاتح، أرجواني.<br>• <b>الصبغة الأساسية:</b> تمتص لونًا أساسيًا واحدًا (أصفر، أزرق فاتح، أرجواني).<br>• <b>الصبغة الثانوية:</b> تمتص لونين أساسيين (أحمر، أخضر، أزرق).<br>• <b>الألوان المتتامة:</b> لونان يتحدان لإنتاج الأبيض.</div>
+</div>
+<div class="card">القاعدة: <b>الجسم الملوّن لا يصنع الضوء، بل يختزل منه.</b> ما لم يُمتص يصل إلى أعيننا فنراه لونًا.</div>
+</section>
+
+<section class="slide">
+<h2>تجربة 1: <span>ماذا يعكس الجسم وماذا يمتص؟</span></h2>
+<div class="grid">
+<div class="card"><div class="lbl">1) لون الضوء الساقط</div><div class="row" id="L1"></div></div>
+<div class="card"><div class="lbl">2) لون الجسم (ما تعكسه صبغته)</div><div class="row" id="O1"></div></div>
+</div>
+<div class="stage" style="flex-direction:column">
+<svg viewBox="0 0 640 230" id="svg"></svg>
+<div class="res" id="e1"></div>
+</div>
+<div class="card">لاحظ: الشعاع الذي يُمتص يختفي عند الجسم، أما المنعكس فيعود إلى العين. جرّب <b>جسم أحمر + ضوء أزرق</b>.</div>
+</section>
+
+<section class="slide">
+<h2>تجربة 2: <span>حجارة النرد (الشكل 13)</span></h2>
+<div class="card"><div class="lbl">اختر الضوء الذي يُضاء به النرد</div><div class="row" id="L2"></div></div>
+<div class="stage" style="flex-direction:column"><div class="dice" id="dice"></div><div class="res" id="e2"></div></div>
+<div class="card">كل حجر يعكس لونه فقط. تحت الضوء الأحمر يبدو الأحمر والأبيض ساطعين، ويبدو الأخضر والأزرق داكنين تقريبًا.</div>
+</section>
+
+<section class="slide">
+<h2>تجربة 3: <span>خلط الصبغات (اختزال)</span></h2>
+<div class="card">ورقة بيضاء تعكس كل الألوان. أضف صبغات فوقها وشاهد ما يبقى:</div>
+<div class="card row" id="pigs"></div>
+<div class="stage"><div><div>الناتج</div><div class="box" id="pb"></div></div><div><div>الضوء المنعكس</div><div class="row" id="pbars" style="justify-content:center"></div></div></div>
+<div class="card res" id="pe"></div>
+<div class="grid">
+<div class="card">أصفر + أزرق فاتح = <b style="color:#4cd964">أخضر</b></div>
+<div class="card">أصفر + أرجواني = <b style="color:#ff5a5f">أحمر</b></div>
+<div class="card">أزرق فاتح + أرجواني = <b style="color:#4aa3ff">أزرق</b></div>
+</div>
+</section>
+
+<section class="slide">
+<h2>تجربة 4: <span>مزج الضوء ≠ مزج الصبغات</span></h2>
+<div class="grid">
+<div class="card"><b>مزج الأضواء (جمع)</b><div class="row" id="add" style="margin:8px 0"></div>
+<div class="stage"><div class="box" id="ab" style="background:#000"></div></div><div class="res" id="ae"></div></div>
+<div class="card"><b>مزج الصبغات (طرح)</b><div class="row" id="sub" style="margin:8px 0"></div>
+<div class="stage"><div class="box" id="sb" style="background:#fff"></div></div><div class="res" id="se"></div></div>
+</div>
+<div class="card">الأضواء تُضاف فتزداد الإضاءة حتى الأبيض، والصبغات تُطرح فيقل الضوء المنعكس حتى الأسود.</div>
+</section>
+
+<section class="slide">
+<h2>اختبر <span>نفسك</span></h2>
+<div id="quiz"></div><div class="res" id="score"></div>
+</section>
+
+<section class="slide">
+<h2>الخلاصة</h2>
+<div class="card">1. الأجسام تعكس أو تمرّر أو تمتص الضوء.</div>
+<div class="card">2. لون الجسم = الأطوال الموجية التي <b>يعكسها</b> من الضوء الساقط.</div>
+<div class="card">3. صبغة بلا ضوء تمتصه لا تعطي لونًا: الموز الأصفر تحت الضوء الأزرق يبدو أسود.</div>
+<div class="card">4. الصبغات الأساسية: أصفر، أزرق فاتح، أرجواني. وخلط الثلاث يعطي الأسود.</div>
+<div class="card">5. الألوان المتتامة (مثل الأصفر والأزرق) تنتج الأبيض عند مزج ضوئيهما.</div>
+</section>
+
+</main>
+<nav><button id="nx">التالي ←</button><b id="pg"></b><button id="pv">→ السابق</button></nav>
+
+<script>
+const $=id=>document.getElementById(id),rgb=v=>`rgb(${v.map(x=>Math.min(1,x)*255)})`;
+const N={"0,0,0":"أسود","1,0,0":"أحمر","0,1,0":"أخضر","0,0,1":"أزرق","1,1,0":"أصفر","0,1,1":"أزرق فاتح","1,0,1":"أرجواني","1,1,1":"أبيض"};
+const nm=v=>N[v.join(",")],CH=["الأحمر","الأخضر","الأزرق"],RC=["#ff0000","#00ff00","#0000ff"],tc=v=>"color:"+(v.some(x=>x)?rgb(v):"#000")+";text-shadow:"+(v.some(x=>x)?"0 0 2px #000,0 0 2px #000":"0 0 3px #fff,0 0 3px #fff,0 0 6px #fff");
+const LIGHTS=[[1,1,1],[1,0,0],[0,1,0],[0,0,1],[1,1,0],[0,1,1],[1,0,1]];
+const OBJS=[[1,0,0],[0,1,0],[0,0,1],[1,1,0],[1,1,1],[0,0,0]];
+function chips(id,arr,start,cb){const el=$(id);arr.forEach((v,i)=>{const b=document.createElement('button');b.className='sw'+(i==start?' sel':'');b.style.background=rgb(v);b.title=nm(v);b.onclick=()=>{[...el.children].forEach(c=>c.classList.remove('sel'));b.classList.add('sel');cb(i)};el.appendChild(b)})}
+// nav
+const S=[...document.querySelectorAll('.slide')];let c=0;
+function go(i){c=Math.max(0,Math.min(S.length-1,i));S.forEach((s,k)=>s.classList.toggle('on',k==c));$('pg').textContent=(c+1)+" / "+S.length;$('prog').firstElementChild.style.width=((c+1)/S.length*100)+"%";$('pv').disabled=c==0;$('nx').disabled=c==S.length-1;document.querySelector('main').scrollTop=0}
+$('nx').onclick=()=>go(c+1);$('pv').onclick=()=>go(c-1);
+addEventListener('keydown',e=>{if(e.key=='ArrowLeft')go(c+1);if(e.key=='ArrowRight')go(c-1)});go(0);
+// exp1
+let l1=0,o1=1;
+chips('L1',LIGHTS,0,i=>{l1=i;u1()});chips('O1',OBJS,0,i=>{o1=i;u1()});
+function u1(){const l=LIGHTS[l1],o=OBJS[o1],r=l.map((x,i)=>x*o[i]);let s=`<defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="#fff"/></marker></defs><circle cx="40" cy="115" r="26" fill="${rgb(l)}" stroke="#fff"/><text x="40" y="170" fill="#fff" font-size="13" text-anchor="middle">المصدر</text>`;
+s+=`<rect x="430" y="40" width="90" height="150" rx="12" fill="${rgb(r.some(x=>x)?r:[.05,.05,.05])}" stroke="#fff" stroke-width="3"/><text x="475" y="215" fill="#fff" font-size="13" text-anchor="middle">الجسم</text>`;
+s+=`<ellipse cx="580" cy="115" rx="22" ry="14" fill="#fff"/><circle cx="580" cy="115" r="7" fill="${rgb(r)}" stroke="#000"/><text x="580" y="150" fill="#fff" font-size="13" text-anchor="middle">العين</text>`;
+[0,1,2].forEach(i=>{const y=75+i*40;if(l[i]){s+=`<line x1="70" y1="${y}" x2="428" y2="${y}" stroke="${RC[i]}" stroke-width="5"/>`;
+if(o[i])s+=`<line x1="430" y1="${y}" x2="585" y2="115" stroke="${RC[i]}" stroke-width="3" stroke-dasharray="6 4"/>`;else s+=`<text x="380" y="${y-8}" fill="${RC[i]}" font-size="14" text-anchor="end">✕ امتُصّ</text>`}});
+$('svg').innerHTML=s;
+const ab=CH.filter((_,i)=>l[i]&&!o[i]),rf=CH.filter((_,i)=>r[i]);
+$('e1').innerHTML=`جسم ${nm(o)} تحت ضوء ${nm(l)} ← يظهر <span style="${tc(r)}">${nm(r)}</span><br><small>يعكس: ${rf.join(' + ')||'لا شيء'} | يمتص: ${ab.join(' + ')||'لا شيء'}</small>`}
+u1();
+// exp2
+const D=[[[1,0,0],[1,1,1]],[[0,1,0],[1,1,1]],[[1,1,1],[1,0,0]],[[0,0,1],[1,1,1]]];let l2=0;
+chips('L2',[LIGHTS[0],LIGHTS[1],LIGHTS[3],LIGHTS[2]],0,i=>{l2=[0,1,3,2][i];u2()});
+function u2(){const l=LIGHTS[l2];$('dice').innerHTML=D.map(d=>{const b=d[0].map((x,i)=>x*l[i]),p=d[1].map((x,i)=>x*l[i]);return`<div class="die" style="background:${rgb(b.some(x=>x)?b:[.04,.04,.04])};--p:${rgb(p.some(x=>x)?p:[.04,.04,.04])}">${'<u></u>'.repeat(9)}</div>`}).join('');
+$('e2').textContent="الضوء الساقط: "+nm(l)}
+u2();
+// exp3
+const P=[["أصفر",[1,1,0]],["أزرق فاتح",[0,1,1]],["أرجواني",[1,0,1]]],on=[0,0,0];
+P.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p[0];b.style.borderRight=`14px solid ${rgb(p[1])}`;b.onclick=()=>{on[i]^=1;b.classList.toggle('sel',!!on[i]);u3()};$('pigs').appendChild(b)});
+function u3(){let r=[1,1,1];P.forEach((p,i)=>on[i]&&(r=r.map((x,k)=>x*p[1][k])));$('pb').style.background=rgb(r);
+$('pbars').innerHTML=r.map((x,i)=>`<div style="text-align:center;font-size:.8rem"><div style="width:40px;height:50px;border:1px solid #888;position:relative"><b style="position:absolute;bottom:0;left:0;right:0;height:${x*100}%;background:${RC[i]}"></b></div>${CH[i].slice(3)}</div>`).join('');
+$('pe').innerHTML="يظهر: <span style='"+tc(r)+"'>"+nm(r)+"</span>"+(on.some(x=>x)?"":" (ورقة بيضاء)")}
+u3();
+// exp4
+const A=[0,0,0],B=[0,0,0];
+[["أحمر",0,"#ff0000"],["أخضر",1,"#00ff00"],["أزرق",2,"#0000ff"]].forEach(t=>{const b=document.createElement('button');b.textContent=t[0];b.style.borderRight=`14px solid ${t[2]}`;b.onclick=()=>{A[t[1]]^=1;b.classList.toggle('sel',!!A[t[1]]);$('ab').style.background=rgb(A);$('ae').textContent=nm(A)};$('add').appendChild(b)});
+$('ae').textContent=nm(A);
+const SB=[1,1,1];
+P.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p[0];b.style.borderRight=`14px solid ${rgb(p[1])}`;let on2=0;b.onclick=()=>{on2^=1;b.classList.toggle('sel',!!on2);B[i]=on2;let r=[1,1,1];P.forEach((q,k)=>B[k]&&(r=r.map((x,j)=>x*q[1][j])));$('sb').style.background=rgb(r);$('se').textContent=nm(r)};$('sub').appendChild(b)});
+$('se').textContent="أبيض";
+// quiz
+const Q=[["ما لون الموز الأصفر تحت الضوء الأبيض؟",["أصفر","أبيض","أسود","أخضر"],0,"يعكس الأحمر والأخضر ويمتص الأزرق."],
+["وما لونه تحت الضوء الأزرق فقط؟",["أصفر","أزرق","أسود","أبيض"],2,"لا يوجد أحمر أو أخضر ليعكسهما، والأزرق يُمتص."],
+["أي ضوء يتحد مع الأزرق لإنتاج الأبيض؟",["الأحمر","الأخضر","الأصفر","الأرجواني"],2,"الأصفر لون متمّم للأزرق."],
+["أي صبغتين أساسيتين تنتجان الأحمر بالمزج؟",["أصفر + أزرق فاتح","أصفر + أرجواني","أزرق فاتح + أرجواني","أرجواني فقط"],1,"الأصفر يمتص الأزرق، والأرجواني يمتص الأخضر، فيبقى الأحمر."]];
+let sc=0,dn=0;
+Q.forEach(q=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<b>${q[0]}</b>`;let done=0;
+q[1].forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>{if(done)return;done=1;dn++;const ok=i==q[2];if(ok)sc++;b.classList.add(ok?'ok':'no');if(!ok)d.children[q[2]+1].classList.add('ok');const m=document.createElement('div');m.style.color='var(--mut)';m.textContent=q[3];d.appendChild(m);if(dn==Q.length)$('score').textContent=`نتيجتك: ${sc} من ${Q.length}`};d.appendChild(b)});$('quiz').appendChild(d)});
+</script></body></html>
